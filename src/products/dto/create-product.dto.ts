@@ -1,5 +1,16 @@
+import { IsNotEmpty } from '@nestjs/class-validator';
+
 export class CreateProductDto {
-  name: string;
-  age: number;
-  breed: string;
+  @IsNotEmpty()
+  name: string
+
+  @IsNotEmpty()
+  priceCost: number
+
+  @IsNotEmpty()
+  priceSale: number
+
+  @IsNotEmpty()
+  percentualProfit: number
+
 }
