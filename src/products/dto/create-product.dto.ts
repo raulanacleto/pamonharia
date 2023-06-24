@@ -2,15 +2,14 @@ import { IsNotEmpty } from '@nestjs/class-validator';
 
 export class CreateProductDto {
   @IsNotEmpty()
-  name: string
+  name: string;
 
   @IsNotEmpty()
-  priceCost: number
+  priceCost: number;
 
   @IsNotEmpty()
-  priceSale: number
+  priceSale: number;
 
   @IsNotEmpty()
-  percentualProfit: number
-
+  markup: number;
 }

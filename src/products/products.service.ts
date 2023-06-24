@@ -15,9 +15,9 @@ export class ProductsService {
     const createdProduct = new this.productModel(createProductDto);
     return createdProduct.save();
   }
-
-  async findAll(): Promise<string> {
-    return `This action returns all products`;
+  async findAll(): Promise<Product[]> {
+    const products = await this.productModel.find().exec();
+    return products;
   }
 
   findOne(id: number) {
@@ -28,7 +28,7 @@ export class ProductsService {
     return `This action updates a #${id} product`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} product`;
+  async delete(id: number): Promise<void> {
+    await this.productModel.findByIdAndDelete(id);
   }
 }
