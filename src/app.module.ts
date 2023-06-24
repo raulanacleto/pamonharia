@@ -9,7 +9,7 @@ import { UserModule } from './users/user.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb+srv://raul:naoMeLembro1@cluster0.k4w1w.mongodb.net/pamonharia`,
+      `mongodb+srv://user:password@host`,
     ),
     DeliveryModule,
     ProductsModule,
