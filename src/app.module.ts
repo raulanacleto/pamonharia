@@ -5,11 +5,13 @@ import { DeliveryModule } from './delivery/delivery.module';
 import { ProductsModule } from './products/products.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from './users/user.module';
+import { config } from 'dotenv';
+config();
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb+srv://user:password@host`,
+      `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}`,
     ),
     DeliveryModule,
     ProductsModule,
