@@ -5,18 +5,15 @@ import { DeliveryManService } from './service/deliveryman.service';
 
 @Injectable()
 export class DeliveryService {
-
-  constructor(private readonly deliveryManService: DeliveryManService){
-
-  }
+  constructor(private readonly deliveryManService: DeliveryManService) {}
 
   create(createDeliveryDto: CreateDeliveryDto) {
     return 'This action adds a new delivery';
   }
 
   async findAll(): Promise<any> {
-    const vehicles = await this.deliveryManService.vehicles()
-    return `This action returns all delivery:  ${vehicles}` ;
+    const vehicles = await this.deliveryManService.vehicles();
+    return `This action returns all delivery:  ${vehicles}`;
   }
 
   findOne(id: number) {
