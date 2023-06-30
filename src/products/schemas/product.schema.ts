@@ -10,8 +10,10 @@ export class Product {
 
   @Prop()
   costPrice: number;
+
   @Prop()
   markup: number;
+
   @Prop()
   salePrice: number;
 }
