@@ -6,6 +6,7 @@ import {
 } from 'class-validator';
 
 export class CreateUserDTO {
+  id?: number;
   @IsNotEmpty()
   @IsString()
   name: string;

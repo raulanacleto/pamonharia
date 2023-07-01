@@ -4,6 +4,7 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schema';
 import { Model } from 'mongoose';
+import { ProductNotFound } from './exception/product.exception';
 
 @Injectable()
 export class ProductsService {
@@ -11,24 +12,35 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
-  async create(createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = new this.productModel(createProductDto);
+  async create(dto: CreateProductDto): Promise<Product> {
+    const createdProduct = new this.productModel(dto);
     return createdProduct.save();
   }
+
   async findAll(): Promise<Product[]> {
-    const products = await this.productModel.find().exec();
-    return products;
+    return await this.productModel.find().exec();
   }
 
   async findById(id: string) {
-    return await this.productModel.findById(id);
+    const response = await this.productModel.findById(id);
+    if (!response) {
+      throw new ProductNotFound();
+    }
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
-    return await this.productModel.findByIdAndUpdate(id, updateProductDto);
+  async update(id: string, dto: UpdateProductDto) {
+    const response = await this.productModel.findById(id);
+    if (!response) {
+      throw new ProductNotFound();
+    }
+    await this.productModel.findByIdAndUpdate(id, dto);
   }
 
   async delete(id: string): Promise<void> {
+    const response = await this.productModel.findById(id);
+    if (!response) {
+      throw new ProductNotFound();
+    }
     await this.productModel.findByIdAndDelete(id);
   }
 }

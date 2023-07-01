@@ -4,13 +4,14 @@ import { AppService } from './app.service';
 import { DeliveryModule } from './delivery/delivery.module';
 import { ProductsModule } from './products/products.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from './users/user.module';
 import { config } from 'dotenv';
+import { UserModule } from './users/user.module';
+
 config();
 @Module({
   imports: [
     MongooseModule.forRoot(
-      `mongodb+srv://${process.env.pamonharia_db_user}:${process.env.pamonharia_db_password}@${process.env.DB_HOST}`,
+      `mongodb+srv://${process.env.PAMONHARIA_DB_USER}:${process.env.PAMONHARIA_DB_PASSWORD}@${process.env.DB_HOST}`,
     ),
     DeliveryModule,
     ProductsModule,
