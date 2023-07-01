@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Put,
@@ -13,36 +12,37 @@ import { UserService } from './user.service';
 import { CreateUserDTO } from './dto/create-user.dto';
 import { UpdatePutUserDto } from './dto/update-put-user.dto';
 import { UpdatePatchUserDto } from './dto/update-patch-user.dto';
+import { UserSchema } from './schemas/user.schema';
 
 @Controller('users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async getAllUsers() {
+  async getAllUsers(): Promise<UserSchema[]> {
     return await this.userService.findAll();
   }
   @Get(':id')
-  async getUser(@Param('id', ParseIntPipe) id) {
+  async getUser(@Param('id') id: string) {
     return await this.userService.findById(id);
   }
-  @Post('create')
-  async createUser(@Body() dto: CreateUserDTO) {
-    return await this.userService.create(dto);
+  @Post()
+  async createUser(@Body() dto: CreateUserDTO): Promise<UserSchema> {
+    return this.userService.create(dto);
   }
   @Put(':id')
-  updatePutById(@Param('id', ParseIntPipe) id, @Body() dto: UpdatePutUserDto) {
-    return this.userService.updatePutUser(id, dto);
+  async updatePutById(@Param('id') id: string, @Body() dto: UpdatePutUserDto) {
+    return await this.userService.updatePutUser(id, dto);
   }
   @Patch(':id')
-  updatePatchById(
-    @Param('id', ParseIntPipe) id,
+  async updatePatchById(
+    @Param('id') id: string,
     @Body() dto: UpdatePatchUserDto,
   ) {
-    return this.userService.updatePatchUser(id, dto);
+    return await this.userService.updatePatchUser(id, dto);
   }
   @Delete(':id')
-  deleteUser(@Param('id', ParseIntPipe) id) {
-    return this.userService.delete(id);
+  async deleteUser(@Param('id') id: string) {
+    return await this.userService.delete(id);
   }
 }

@@ -5,10 +5,10 @@ export class CreateProductDto {
   name: string;
 
   @IsNotEmpty()
-  priceCost: number;
+  costPrice: number;
 
   @IsNotEmpty()
-  priceSale: number;
+  salePrice: number;
 
   @IsNotEmpty()
   markup: number;

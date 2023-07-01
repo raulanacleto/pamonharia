@@ -6,6 +6,7 @@ import { ProductsModule } from './products/products.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { config } from 'dotenv';
 import { UserModule } from './users/user.module';
+import { AuthModule } from './auth/auth.module';
 
 config();
 @Module({
@@ -16,6 +17,7 @@ config();
     DeliveryModule,
     ProductsModule,
     UserModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],

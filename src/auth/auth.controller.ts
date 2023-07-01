@@ -1,10 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Headers, Post, UseGuards } from '@nestjs/common';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthForgetDto } from './dto/auth-forget.dto';
 import { AuthResetDto } from './dto/auth-reset.dto';
 import { UserService } from '../users/user.service';
-import { CreateUserDTO } from '../users/dto/create-user.dto';
 import { AuthService } from './auth.service';
+import { AuthRegisterDto } from './dto/auth-register.dto';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -15,12 +16,12 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() dto: AuthLoginDto) {
-    await this.authService.login(dto);
+    return await this.authService.login(dto);
   }
 
   @Post('register')
-  async register(@Body() dto: CreateUserDTO) {
-    await this.userService.create(dto);
+  async register(@Body() dto: AuthRegisterDto) {
+    return await this.authService.register(dto);
   }
 
   @Post('forget')
@@ -31,5 +32,10 @@ export class AuthController {
   @Post('reset')
   async reset(@Body() dto: AuthResetDto) {
     await this.authService.reset(dto);
+  }
+  @UseGuards(AuthGuard)
+  @Post('checkToken')
+  async checkToken(@Headers('authorization') token) {
+    return await this.authService.checkToken((token ?? '').split(' ')[1]);
   }
 }
