@@ -5,17 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { ProductNotFound } from './exception/product.exception';
-import { Logger } from '../utils/logger';
 
 @Injectable()
 export class ProductsService {
-  private logger: Logger = Logger.getInstance();
   constructor(
     @InjectModel(Product.name) private productModel: Model<Product>,
   ) {}
 
   async create(dto: CreateProductDto): Promise<Product> {
-    this.logger.log('Log message from logger');
     const createdProduct = new this.productModel(dto);
     return createdProduct.save();
   }
