@@ -7,6 +7,8 @@ import { Model } from 'mongoose';
 import { ProductNotFound } from './exception/product.exception';
 import { Creator } from '../desing-patterns/creational/factory-method/creator';
 import { PhoneCreator } from '../desing-patterns/creational/factory-method/phone-creator';
+import { Prototype } from '../desing-patterns/creational/prototype/prototype';
+import { ComponentWithBackReference } from '../desing-patterns/creational/prototype/component-with-back-reference';
 
 @Injectable()
 export class ProductsService {
@@ -18,6 +20,16 @@ export class ProductsService {
     this.clientCode(new PhoneCreator());
     const createdProduct = new this.productModel(dto);
     return createdProduct.save();
+  }
+
+  async copy(id: string): Promise<Product> {
+    const p1: Prototype = new Prototype();
+    p1.primitive = id;
+    p1.component = new Date();
+    p1.circularReference = new ComponentWithBackReference(p1);
+    const p2: Prototype = p1.clone();
+    console.log(p2);
+    return undefined;
   }
 
   async findAll(): Promise<Product[]> {
