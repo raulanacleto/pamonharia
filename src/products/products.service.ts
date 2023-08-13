@@ -5,6 +5,8 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product } from './schemas/product.schema';
 import { Model } from 'mongoose';
 import { ProductNotFound } from './exception/product.exception';
+import { Creator } from '../desing-patterns/creational/factory-method/creator';
+import { PhoneCreator } from '../desing-patterns/creational/factory-method/phone-creator';
 
 @Injectable()
 export class ProductsService {
@@ -13,6 +15,7 @@ export class ProductsService {
   ) {}
 
   async create(dto: CreateProductDto): Promise<Product> {
+    this.clientCode(new PhoneCreator());
     const createdProduct = new this.productModel(dto);
     return createdProduct.save();
   }
@@ -42,5 +45,12 @@ export class ProductsService {
       throw new ProductNotFound();
     }
     await this.productModel.findByIdAndDelete(id);
+  }
+
+  private clientCode(creator: Creator): void {
+    console.log(
+      "Client: I'm not aware of the creator's class, but it still works.",
+    );
+    console.log(creator.showDisplayInfo());
   }
 }
