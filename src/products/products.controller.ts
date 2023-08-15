@@ -21,7 +21,12 @@ export class ProductsController {
     return this.productsService.create(createProductDto);
   }
 
-  @Get()
+  @Post()
+  async copy(@Param('id') id: string): Promise<Product> {
+    return this.productsService.copy(id);
+  }
+
+  @Get(':id')
   async findAll(): Promise<Product[]> {
     return await this.productsService.findAll();
   }
